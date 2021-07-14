@@ -1,29 +1,32 @@
 START TRANSACTION;
 
 DROP DATABASE IF EXISTS felix;
-CREATE DATABASE felix;
+CREATE DATABASE felix
+    CHARACTER SET = 'utf8';
 USE felix;
 
 -- Authors of books, CDs, DVDs
 CREATE TABLE authors (
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(30) NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
+    second_name VARCHAR(30) DEFAULT NULL,
     surname VARCHAR(30) NOT NULL,
-    year_of_birth YEAR NOT NULL,
+    year_of_birth INT NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, year_of_birth)
+    UNIQUE(first_name, second_name, surname, year_of_birth)
 );
 
 -- Films' actors
 CREATE TABLE actors (
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(30) NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
+    second_name VARCHAR(30) DEFAULT NULL,
     surname VARCHAR(30) NOT NULL,
-    year_of_birth YEAR NOT NULL,
+    year_of_birth INT NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, year_of_birth)
+    UNIQUE(first_name, second_name, surname, year_of_birth)
 );
 
 -- CDs' tracks
@@ -46,12 +49,13 @@ CREATE TABLE genres (
 -- Registered users of library system
 CREATE TABLE registered (
     id INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(30),
-    surname VARCHAR(30),
+    first_name VARCHAR(30) NOT NULL,
+    second_name VARCHAR(30) DEFAULT NULL,
+    surname VARCHAR(30) NOT NULL,
     date_of_birth DATE NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, date_of_birth)
+    UNIQUE(first_name, second_name, surname, date_of_birth)
 );
 
 -- Locations of all the libraries in the system
@@ -79,13 +83,14 @@ CREATE TABLE producers (
 -- Negative values for publication_year represents B.C. years
 CREATE TABLE books (
     id INT AUTO_INCREMENT NOT NULL,
-    title VARCHAR(50) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     publication_year INT NOT NULL,
-    publication_month INT NULL
+    publication_month INT DEFAULT NULL
     	CHECK ((publication_month >= 1 AND publication_month <= 12) OR publication_month = NULL),
     editor VARCHAR(50) NOT NULL,
-    isbn_10 CHAR(10) NOT NULL,
-    isbn_13 CHAR(13) NOT NULL,
+    isbn_10 CHAR(10),
+    isbn_13 CHAR(13) 
+        CHECK (isbn_13 <=> NULL OR isbn_10 <=> NULL),
 
     PRIMARY KEY(id),
     UNIQUE(isbn_10, isbn_13),
@@ -125,19 +130,6 @@ CREATE TABLE authors_books (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (author_id) REFERENCES authors(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
-CREATE TABLE editors_books (
-    book_id INT NOT NULL,
-    editor_name VARCHAR(50) NOT NULL,
-
-    PRIMARY KEY(book_id, editor_name),
-    FOREIGN KEY (book_id) REFERENCES books(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (editor_name) REFERENCES editors(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
