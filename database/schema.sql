@@ -287,11 +287,11 @@ CREATE TABLE loans (
     item_type ENUM('book', 'cd', 'dvd') NOT NULL,
     location_id INT NOT NULL,
     registered_id INT NOT NULL,
-    filing_date DATE NOT NULL DEFAULT NOW(),
-    pick_up_date DATE NULL
-    	CHECK (filing_date <= pick_up_date OR pick_up_date = NULL),
+    pick_up_date DATE NOT NULL DEFAULT NOW(),
+    filing_date DATE NULL
+    	CHECK (filing_date >= pick_up_date OR filing_date = NULL),
 
-    PRIMARY KEY (item_id, item_type, location_id, registered_id, filing_date),
+    PRIMARY KEY (item_id, item_type, location_id, registered_id, pick_up_date),
     FOREIGN KEY (location_id) REFERENCES locations(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
