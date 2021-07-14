@@ -12,8 +12,7 @@ CREATE TABLE authors (
     year_of_birth YEAR NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, year_of_birth),
-    CONSTRAINT non_future_year CHECK (publication_year <= YEAR(NOW()))
+    UNIQUE(name, surname, year_of_birth)
 );
 
 -- Films' actors
@@ -24,20 +23,22 @@ CREATE TABLE actors (
     year_of_birth YEAR NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, year_of_birth),
-    CONSTRAINT non_future_year CHECK (publication_year <= YEAR(NOW()))
+    UNIQUE(name, surname, year_of_birth)
 );
 
 -- CDs' tracks
 CREATE TABLE tracks (
+    id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(70) NOT NULL,
-    duration INT,
+    duration INT NOT NULL
+        CHECK (duration > 0),
 
-    PRIMARY KEY(name)
+    PRIMARY KEY(id),
+    UNIQUE(name, duration)
 );
 
 CREATE TABLE genres (
-    name VARCHAR(30) NOT NULL;
+    name VARCHAR(30) NOT NULL,
 
     PRIMARY KEY(name)
 );
@@ -50,11 +51,11 @@ CREATE TABLE registered (
     date_of_birth DATE NOT NULL,
 
     PRIMARY KEY(id),
-    UNIQUE(name, surname, date_of_birth),
-    CONSTRAINT non_future_date CHECK (date_of_birth <= NOW())
+    UNIQUE(name, surname, date_of_birth)
 );
 
-CREATE TABLE libraries_locations (
+-- Locations of all the libraries in the system
+CREATE TABLE locations (
     id INT AUTO_INCREMENT NOT NULL,
     city VARCHAR(30) NOT NULL,
     address VARCHAR(50) NOT NULL,
@@ -80,7 +81,8 @@ CREATE TABLE books (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,
     publication_year INT NOT NULL,
-    publication_month INT NULL,
+    publication_month INT NULL
+    	CHECK ((publication_month >= 1 AND publication_month <= 12) OR publication_month = NULL),
     editor VARCHAR(50) NOT NULL,
     isbn_10 CHAR(10) NOT NULL,
     isbn_13 CHAR(13) NOT NULL,
@@ -89,33 +91,29 @@ CREATE TABLE books (
     UNIQUE(isbn_10, isbn_13),
     FOREIGN KEY (editor) REFERENCES editors(name)
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    CONSTRAINT valid_month CHECK ((publication_month >= 1 AND publication_month <= 12) OR publication_month = NULL),
-    CONSTRAINT non_future_year CHECK (publication_year <= YEAR(NOW()))
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE cds (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,
     production_year INT NOT NULL,
-    production_month INT NULL,
+    production_month INT NULL
+    	CHECK ((production_month >= 1 AND production_month <= 12) OR production_month = NULL),
 
     PRIMARY KEY(id),
     UNIQUE(title, production_year)
-    CONSTRAINT valid_month CHECK ((production_month >= 1 AND production_month <= 12) OR production_month = NULL),
-    CONSTRAINT non_future_year CHECK (publication_year <= YEAR(NOW()))
 );
 
 CREATE TABLE dvds (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,
     production_year INT NOT NULL,
-    production_month INT NULL,
+    production_month INT NULL
+    	CHECK (production_month >= 1 AND production_month <= 12),
 
     PRIMARY KEY(id),
-    UNIQUE(title, production_year),
-    CONSTRAINT valid_month CHECK (production_month >= 1 AND production_month <= 12),
-    CONSTRAINT non_future_year CHECK (publication_year <= YEAR(NOW()))
+    UNIQUE(title, production_year)
 );
 
 CREATE TABLE authors_books (
@@ -133,26 +131,26 @@ CREATE TABLE authors_books (
 
 CREATE TABLE editors_books (
     book_id INT NOT NULL,
-    editor_id INT NOT NULL,
+    editor_name VARCHAR(50) NOT NULL,
 
-    PRIMARY KEY(book_id, editor_id),
+    PRIMARY KEY(book_id, editor_name),
     FOREIGN KEY (book_id) REFERENCES books(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (editor_id) REFERENCES editors(id)
+    FOREIGN KEY (editor_name) REFERENCES editors(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE genres_books (
     book_id INT NOT NULL,
-    genre_id INT NOT NULL,
+    genre_name VARCHAR(30) NOT NULL,
 
-    PRIMARY KEY(book_id, genre_id),
+    PRIMARY KEY(book_id, genre_name),
     FOREIGN KEY (book_id) REFERENCES books(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id)
+    FOREIGN KEY (genre_name) REFERENCES genres(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -172,26 +170,26 @@ CREATE TABLE authors_cds (
 
 CREATE TABLE producers_cds (
     cd_id INT NOT NULL,
-    producer_id INT NOT NULL,
+    producer_name VARCHAR(50) NOT NULL,
 
-    PRIMARY KEY(cd_id, producer_id),
+    PRIMARY KEY(cd_id, producer_name),
     FOREIGN KEY (cd_id) REFERENCES cds(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (producer_id) REFERENCES producers(id)
+    FOREIGN KEY (producer_name) REFERENCES producers(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE genres_cds (
     cd_id INT NOT NULL,
-    genre_id INT NOT NULL,
+    genre_name VARCHAR(30) NOT NULL,
 
-    PRIMARY KEY(cd_id, genre_id),
+    PRIMARY KEY(cd_id, genre_name),
     FOREIGN KEY (cd_id) REFERENCES cds(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id)
+    FOREIGN KEY (genre_name) REFERENCES genres(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -207,7 +205,7 @@ CREATE TABLE tracks_cds (
     FOREIGN KEY (track_id) REFERENCES tracks(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
-)
+);
 
 CREATE TABLE authors_dvds (
     dvd_id INT NOT NULL,
@@ -224,26 +222,26 @@ CREATE TABLE authors_dvds (
 
 CREATE TABLE producers_dvds (
     dvd_id INT NOT NULL,
-    producer_id INT NOT NULL,
+    producer_name VARCHAR(50) NOT NULL,
 
-    PRIMARY KEY(dvd_id, producer_id),
+    PRIMARY KEY(dvd_id, producer_name),
     FOREIGN KEY (dvd_id) REFERENCES dvds(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (producer_id) REFERENCES producers(id)
+    FOREIGN KEY (producer_name) REFERENCES producers(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE genres_dvds (
     dvd_id INT NOT NULL,
-    genre_id INT NOT NULL,
+    genre_name VARCHAR(30) NOT NULL,
 
-    PRIMARY KEY(dvd_id, genre_id),
+    PRIMARY KEY(dvd_id, genre_name),
     FOREIGN KEY (dvd_id) REFERENCES dvds(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (genre_id) REFERENCES genres(id)
+    FOREIGN KEY (genre_name) REFERENCES genres(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -265,11 +263,11 @@ CREATE TABLE interlibrary_exchanges (
     item_id INT NOT NULL,
     item_type ENUM('book', 'cd', 'dvd') NOT NULL,
     sender_location_id INT NOT NULL,
-    recepient_location_id INT NOT NULL,
+    recepient_location_id INT NOT NULL
+    	CHECK (sender_location_id <> recepient_location_id),
     exchange_date DATE NOT NULL DEFAULT NOW(),
 
     PRIMARY KEY (item_id, item_type, sender_location_id, recepient_location_id, exchange_date),
-    CONSTRAINT different_sender_recepient CHECK (sender_location_id <> recepient_location_id),
     FOREIGN KEY (sender_location_id) REFERENCES locations(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
@@ -283,12 +281,10 @@ CREATE TABLE items_locations (
     item_type ENUM('book', 'cd', 'dvd') NOT NULL,
     location_id INT NOT NULL,
     filing_date DATE NOT NULL DEFAULT NOW(),
-    pick_up_date DATE NULL,
+    pick_up_date DATE NULL
+    	CHECK (filing_date <= pick_up_date OR pick_up_date = NULL),
 
     PRIMARY KEY (item_id, item_type, location_id, filing_date),
-    CONSTRAINT non_future_filing_date CHECK (filing_date <= NOW()),
-    CONSTRAINT non_future_pick_up_date CHECK (pick_up_date <= NOW() OR pick_up_date = NULL),
-    CONSTRAINT non_crossed_dates CHECK (filing_date <= pick_up_date OR pick_up_date = NULL)
     FOREIGN KEY (location_id) REFERENCES locations(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -300,18 +296,16 @@ CREATE TABLE loans (
     location_id INT NOT NULL,
     registered_id INT NOT NULL,
     filing_date DATE NOT NULL DEFAULT NOW(),
-    pick_up_date DATE NULL,
+    pick_up_date DATE NULL
+    	CHECK (filing_date <= pick_up_date OR pick_up_date = NULL),
 
     PRIMARY KEY (item_id, item_type, location_id, registered_id, filing_date),
-    CONSTRAINT non_future_filing_date CHECK (filing_date <= NOW()),
-    CONSTRAINT non_future_pick_up_date CHECK (pick_up_date <= NOW() OR pick_up_date = NULL),
-    CONSTRAINT non_crossed_dates CHECK (filing_date <= pick_up_date OR pick_up_date = NULL)
-    FOREIGN KEY location_id REFERENCES locations(id)
+    FOREIGN KEY (location_id) REFERENCES locations(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY registered_id REFERENCES registered(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-)
+    FOREIGN KEY (registered_id) REFERENCES registered(id)
+    	ON DELETE CASCADE
+    	ON UPDATE CASCADE
+);
 
 COMMIT;
