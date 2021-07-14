@@ -13,7 +13,7 @@ public class FelixApplication {
 		SpringApplication.run(FelixApplication.class, args);
 	}
 
-	@GetMapping
+	@GetMapping("/felix")
 	public String hello() {
 		return "Hello, world";
 	}
