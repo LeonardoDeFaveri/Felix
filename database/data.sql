@@ -84,7 +84,7 @@ INSERT INTO `editors` (name) VALUES
     ('Atmosphere Libri'),
     ('Fanucci editore');
 
-INSERT INTO `books` (id, title, publication_year, publication_month, editor, isbn_10, isbn_13) VALUES
+INSERT INTO `books` (id, title, year, month, editor, isbn_10, isbn_13) VALUES
     (1, 'La giornata di un OpričniK', 2014, 3, 'Atmosphere Libri', NULL, '9788865640500'),
     (2, 'La società industriale e il suo futuro', 2918, 3, 'Amazon Italia Logistica S.R.L.', NULL, '9781980557753'),
     (3, 'La fantascienza di H.G. Wells', 2018, 10, 'Mondadori', NULL, '9788804700340'),

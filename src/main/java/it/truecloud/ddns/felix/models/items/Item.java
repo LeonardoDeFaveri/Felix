@@ -1,52 +1,42 @@
 package it.truecloud.ddns.felix.models.items;
 
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.MappedSuperclass;
 
-import it.truecloud.ddns.felix.models.person.Person;
-
+@MappedSuperclass
 public abstract class Item {
-    protected long id;
     protected String title;
-    protected Person author;
-    protected List<String> genres;
-    protected int year, month;
+    protected Integer year;
+    protected Integer month;
 
-    public Item(long id, String title, Person author, List<String> genres, int year, int month) {
-        this.id = id;
+    public Item(String title, Integer year, Integer month) {
         this.title = title;
-        this.author = author;
-        this.genres = genres;
         this.year = year;
         this.month = month;
     }
 
-    public long getId() {
-        return id;
-    }
+    public Item() {}
 
     public String getTitle() {
         return title;
     }
 
-    public Person getAuthor() {
-        return author;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, author.hashCode(), genres.hashCode(), year, month);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
     }
 }

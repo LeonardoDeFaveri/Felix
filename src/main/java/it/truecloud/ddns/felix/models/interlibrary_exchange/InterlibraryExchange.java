@@ -5,12 +5,12 @@ import java.util.Objects;
 import it.truecloud.ddns.felix.models.location.Location;
 
 public class InterlibraryExchange {
-    private long itemId;
+    private Long itemId;
     private String itemType;
     private Location sender, recepient;
-    private long exchangeDate;
+    private Long exchangeDate;
 
-    public InterlibraryExchange(long itemId, String itemType, Location sender, Location recepient, long exchangeDate) {
+    public InterlibraryExchange(Long itemId, String itemType, Location sender, Location recepient, Long exchangeDate) {
         this.itemId = itemId;
         this.itemType = itemType;
         this.sender = sender;
@@ -18,7 +18,9 @@ public class InterlibraryExchange {
         this.exchangeDate = exchangeDate;
     }
 
-    public long getItemId() {
+    public InterlibraryExchange() {}
+
+    public Long getItemId() {
         return itemId;
     }
 
@@ -34,8 +36,28 @@ public class InterlibraryExchange {
         return recepient;
     }
 
-    public long getExchangeDate() {
+    public Long getExchangeDate() {
         return exchangeDate;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public void setSender(Location sender) {
+        this.sender = sender;
+    }
+
+    public void setRecepient(Location recepient) {
+        this.recepient = recepient;
+    }
+
+    public void setExchangeDate(Long exchangeDate) {
+        this.exchangeDate = exchangeDate;
     }
 
     @Override

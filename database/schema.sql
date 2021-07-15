@@ -80,13 +80,13 @@ CREATE TABLE producers (
     PRIMARY KEY(name)
 );
 
--- Negative values for publication_year represents B.C. years
+-- Negative values for year represents B.C. years
 CREATE TABLE books (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(100) NOT NULL,
-    publication_year INT NOT NULL,
-    publication_month INT DEFAULT NULL
-    	CHECK ((publication_month >= 1 AND publication_month <= 12) OR publication_month = NULL),
+    year INT NOT NULL,
+    month INT DEFAULT NULL
+    	CHECK ((month >= 1 AND month <= 12) OR month = NULL),
     editor VARCHAR(50) NOT NULL,
     isbn_10 CHAR(10),
     isbn_13 CHAR(13) 
@@ -102,23 +102,23 @@ CREATE TABLE books (
 CREATE TABLE cds (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,
-    production_year INT NOT NULL,
-    production_month INT NULL
-    	CHECK ((production_month >= 1 AND production_month <= 12) OR production_month = NULL),
+    year INT NOT NULL,
+    month INT NULL
+    	CHECK ((month >= 1 AND month <= 12) OR month = NULL),
 
     PRIMARY KEY(id),
-    UNIQUE(title, production_year)
+    UNIQUE(title, year)
 );
 
 CREATE TABLE dvds (
     id INT AUTO_INCREMENT NOT NULL,
     title VARCHAR(50) NOT NULL,
-    production_year INT NOT NULL,
-    production_month INT NULL
-    	CHECK (production_month >= 1 AND production_month <= 12),
+    year INT NOT NULL,
+    month INT NULL
+    	CHECK (month >= 1 AND month <= 12),
 
     PRIMARY KEY(id),
-    UNIQUE(title, production_year)
+    UNIQUE(title, year)
 );
 
 CREATE TABLE authors_books (

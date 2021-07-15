@@ -3,16 +3,18 @@ package it.truecloud.ddns.felix.models.items.cd.track;
 import java.util.Objects;
 
 public class Track {
-    private long id;
+    private Long id;
     private String name;
-    private long duration;
+    private Long duration;
 
-    public Track(long id, String name, long duration) {
+    public Track(Long id, String name, Long duration) {
         this.name = name;
         this.duration = duration;
     }
 
-    public long getId() {
+    public Track() {}
+
+    public Long getId() {
         return id;
     }
 
@@ -20,8 +22,20 @@ public class Track {
         return name;
     }
 
-    public long getDuration() {
+    public Long getDuration() {
         return duration;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDuration(Long duration) {
+        this.duration = duration;
     }
 
     @Override

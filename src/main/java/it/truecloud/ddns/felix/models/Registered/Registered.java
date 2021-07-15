@@ -3,11 +3,11 @@ package it.truecloud.ddns.felix.models.Registered;
 import java.util.Objects;
 
 public class Registered {
-    private long id;
+    private Long id;
     private String firstName, secondName, surname;
-    private long dateOfBirth;
+    private Long dateOfBirth;
     
-    public Registered(long id, String firstName, String secondName, String surname, long dateOfBirth) {
+    public Registered(Long id, String firstName, String secondName, String surname, Long dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -15,7 +15,9 @@ public class Registered {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public long getId() {
+    public Registered() {}
+
+    public Long getId() {
         return id;
     }
 
@@ -31,8 +33,28 @@ public class Registered {
         return surname;
     }
 
-    public long getDateOfBirth() {
+    public Long getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setDateOfBirth(Long dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     @Override

@@ -6,18 +6,20 @@ import java.util.Objects;
 import it.truecloud.ddns.felix.models.items.Item;
 
 public class Location {
-    private long id;
+    private Long id;
     private String city, address;
     private List<Item> items;
 
-    public Location(long id, String city, String address, List<Item> items) {
+    public Location(Long id, String city, String address, List<Item> items) {
         this.id = id;
         this.city = city;
         this.address = address;
         this.items = items;
     }
 
-    public long getId() {
+    public Location() {}
+
+    public Long getId() {
         return id;
     }
 
@@ -31,6 +33,22 @@ public class Location {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override

@@ -3,26 +3,76 @@ package it.truecloud.ddns.felix.models.items.dvd;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import it.truecloud.ddns.felix.models.author.Author;
 import it.truecloud.ddns.felix.models.items.Item;
-import it.truecloud.ddns.felix.models.person.Person;
 
 public class DVD extends Item{
-    private String producer;
-    private List<Person> actors;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public DVD(long id, String title, Person author, List<String> genres,
-        int year, int month, String producer, List<Person> actors) {
-        super(id, title, author, genres, year, month);
+    private List<Author> authors;
+    private List<String> genres;
+    private String producer;
+    private List<Author> actors;
+
+    public DVD(Long id, String title, Integer year, Integer month,
+        List<Author> authors, List<String> genres,String producer, List<Author> actors) {
+        super(title, year, month);
+        this.authors = authors;
+        this.genres = genres;
         this.producer = producer;
         this.actors = actors;
+    }
+
+    public DVD() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public List<String> getGenres() {
+        return genres;
     }
 
     public String getProducer() {
         return producer;
     }
 
-    public List<Person> getTracks() {
+    public List<Author> getTracks() {
         return actors;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+
+    public List<Author> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Author> actors) {
+        this.actors = actors;
     }
 
     @Override
