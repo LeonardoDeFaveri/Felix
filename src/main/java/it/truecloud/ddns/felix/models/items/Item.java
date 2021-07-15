@@ -1,9 +1,16 @@
 package it.truecloud.ddns.felix.models.items;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+    
     protected String title;
     protected Integer year;
     protected Integer month;
@@ -16,6 +23,10 @@ public abstract class Item {
 
     public Item() {}
 
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -26,6 +37,10 @@ public abstract class Item {
 
     public Integer getMonth() {
         return month;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {

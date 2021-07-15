@@ -7,9 +7,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
@@ -23,10 +20,6 @@ import it.truecloud.ddns.felix.models.items.Item;
 @Entity
 @Table(name = "books")
 public class Book extends Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToMany
     @JoinTable(
         name = "authors_books",
@@ -66,10 +59,6 @@ public class Book extends Item {
 
     public Book() {}
 
-    public Long getId() {
-        return id;
-    }
-
     public List<Author> getAuthors() {
         return authors;
     }
@@ -88,10 +77,6 @@ public class Book extends Item {
 
     public String getIsbn13() {
         return isbn13;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setAuthors(List<Author> authors) {

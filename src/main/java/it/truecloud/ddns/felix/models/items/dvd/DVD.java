@@ -3,18 +3,10 @@ package it.truecloud.ddns.felix.models.items.dvd;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import it.truecloud.ddns.felix.models.author.Author;
 import it.truecloud.ddns.felix.models.items.Item;
 
 public class DVD extends Item{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private List<Author> authors;
     private List<String> genres;
     private String producer;
@@ -31,10 +23,6 @@ public class DVD extends Item{
 
     public DVD() {}
 
-    public Long getId() {
-        return id;
-    }
-
     public List<Author> getAuthors() {
         return authors;
     }
@@ -49,10 +37,6 @@ public class DVD extends Item{
 
     public List<Author> getTracks() {
         return actors;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setAuthors(List<Author> authors) {
