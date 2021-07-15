@@ -86,10 +86,10 @@ INSERT INTO `editors` (name) VALUES
 
 INSERT INTO `books` (id, title, year, month, editor, isbn_10, isbn_13) VALUES
     (1, 'La giornata di un OpričniK', 2014, 3, 'Atmosphere Libri', NULL, '9788865640500'),
-    (2, 'La società industriale e il suo futuro', 2918, 3, 'Amazon Italia Logistica S.R.L.', NULL, '9781980557753'),
+    (2, 'La società industriale e il suo futuro', 2018, 3, 'Amazon Italia Logistica S.R.L.', NULL, '9781980557753'),
     (3, 'La fantascienza di H.G. Wells', 2018, 10, 'Mondadori', NULL, '9788804700340'),
     (4, 'Cthulhu - I racconti del mito', 2016, 10, 'Mondadori', NULL, '9788804669449'),
-    (5, 'Ubki', 2019, 9, 'Fanucci editore', NULL, '9788834738917'),
+    (5, 'Ubik', 2019, 9, 'Fanucci editore', NULL, '9788834738917'),
     (6, 'Dottor Futuro', 2019, 9, 'Fanucci editore', NULL, '9788834739082'),
     (7, 'Le correzioni', 2014, 2, 'Einaudi', NULL, '9788806219550'),
     (8, 'Scacco matto con delitto', 2021, 1, 'Sperling & Kupfer', NULL, '9788820071509'),
