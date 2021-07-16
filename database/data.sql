@@ -304,4 +304,14 @@ INSERT INTO `items_locations` (item_id, location_id, item_type) VALUES
     (38, 3, 'Book'),
     (39, 2, 'Book');
 
+INSERT INTO administrative_users (email, password, first_name, surname, privilege_level) VALUES
+    ('leonardo.defaveri01@gmail.com', '51e8ea280b44e16934d4d611901f3d3afc41789840acdff81942c2f65009cd52',
+        'Leonardo', 'De Faveri', 'Super User'),
+    ('leopieve2001@gmail.com', '51e8ea280b44e16934d4d611901f3d3afc41789840acdff81942c2f65009cd52',
+        'Leonardo', 'De Faveri', 'Library Super Employee');
+
+INSERT INTO administrative_users_locations (user_email, location_id, from_date) VALUES
+    ('leopieve2001@gmail.com', 1, '2021-06-01'),
+    ('leopieve2001@gmail.com', 2, NOW());
+
 COMMIT;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import it.truecloud.ddns.felix.Configuration;
 
 @RestController
-@RequestMapping(path = Configuration.END_POINT + "books")
+@RequestMapping(path = Configuration.END_POINT + "books/")
 public class BookController {
     private final BookService bookService;
 

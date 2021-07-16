@@ -58,6 +58,28 @@ CREATE TABLE registered (
     UNIQUE(first_name, second_name, surname, date_of_birth)
 );
 
+-- Administrative users:
+-- General User (0) [Not represented]:
+--      can see all items in the system
+-- Library Employee (1):
+--      can borrow and take up items, can do interlibrary
+--      exchanges, can add/remove/modify an item in its library, can
+--      register new users (Registered) and remove/modify them
+-- Library Super Employee (2):
+--      can add/remove/modify Library Employees
+-- Super User (3):
+--      can add/remove/modify Library Super Employees
+CREATE TABLE administrative_users (
+    email VARCHAR(320) NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
+    second_name VARCHAR(30) DEFAULT NULL,
+    surname VARCHAR(30) NOT NULL,
+    privilege_level ENUM('Library Employee','Library Super Employee','Super User') NOT NULL DEFAULT 'Library Employee',
+    password CHAR(64) NOT NULL,
+
+    PRIMARY KEY(email)
+);
+
 -- Locations of all the libraries in the system
 CREATE TABLE locations (
     id INT AUTO_INCREMENT NOT NULL,
@@ -66,6 +88,22 @@ CREATE TABLE locations (
 
     PRIMARY KEY(id),
     UNIQUE(city, address)
+);
+
+CREATE TABLE administrative_users_locations (
+    user_email VARCHAR(320) NOT NULL,
+    location_id INT NOT NULL,
+    from_date DATE NOT NULL DEFAULT NOW(),
+    to_date DATE NULL
+        CHECK (to_date >= from_date OR to_date = NULL),
+
+    PRIMARY KEY (user_email, location_id, from_date),
+    FOREIGN KEY (user_email) REFERENCES administrative_users(email)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (location_id) REFERENCES locations(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 CREATE TABLE publishers (
