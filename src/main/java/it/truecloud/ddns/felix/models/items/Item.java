@@ -1,5 +1,7 @@
 package it.truecloud.ddns.felix.models.items;
 
+import java.util.Objects;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -53,5 +55,21 @@ public abstract class Item {
 
     public void setMonth(Integer month) {
         this.month = month;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+
+        Item item = (Item) obj;
+        return (item.title.equalsIgnoreCase(title) &&
+            item.year == year);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, year);
     }
 }

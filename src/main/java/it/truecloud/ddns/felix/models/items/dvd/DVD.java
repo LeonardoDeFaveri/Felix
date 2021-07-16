@@ -1,19 +1,19 @@
 package it.truecloud.ddns.felix.models.items.dvd;
 
 import java.util.List;
-import java.util.Objects;
 
-import it.truecloud.ddns.felix.models.author.Author;
 import it.truecloud.ddns.felix.models.items.Item;
+import it.truecloud.ddns.felix.models.persons.actor.Actor;
+import it.truecloud.ddns.felix.models.persons.author.Author;
 
 public class DVD extends Item{
     private List<Author> authors;
     private List<String> genres;
     private String producer;
-    private List<Author> actors;
+    private List<Actor> actors;
 
     public DVD(Long id, String title, Integer year, Integer month,
-        List<Author> authors, List<String> genres,String producer, List<Author> actors) {
+        List<Author> authors, List<String> genres,String producer, List<Actor> actors) {
         super(title, year, month);
         this.authors = authors;
         this.genres = genres;
@@ -35,7 +35,7 @@ public class DVD extends Item{
         return producer;
     }
 
-    public List<Author> getTracks() {
+    public List<Actor> getActors() {
         return actors;
     }
 
@@ -51,27 +51,7 @@ public class DVD extends Item{
         this.producer = producer;
     }
 
-    public List<Author> getActors() {
-        return actors;
-    }
-
-    public void setActors(List<Author> actors) {
+    public void setActors(List<Actor> actors) {
         this.actors = actors;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-
-        DVD dvd = (DVD) obj;
-        return (dvd.title.equalsIgnoreCase(title) &&
-            dvd.year == year);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, year);
     }
 }

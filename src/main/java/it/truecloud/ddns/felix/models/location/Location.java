@@ -5,6 +5,9 @@ import java.util.Objects;
 
 import it.truecloud.ddns.felix.models.items.Item;
 
+/**
+ * The class represents a library considered as a building.
+ */
 public class Location {
     private Long id;
     private String city, address;

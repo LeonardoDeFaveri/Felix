@@ -1,7 +1,6 @@
 package it.truecloud.ddns.felix.models.items.book;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.JoinTable;
 import javax.persistence.CascadeType;
@@ -12,10 +11,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import it.truecloud.ddns.felix.models.author.Author;
-import it.truecloud.ddns.felix.models.editor.Editor;
 import it.truecloud.ddns.felix.models.genre.Genre;
 import it.truecloud.ddns.felix.models.items.Item;
+import it.truecloud.ddns.felix.models.persons.author.Author;
+import it.truecloud.ddns.felix.models.publisher.Publisher;
 
 @Entity
 @Table(name = "books")
@@ -37,8 +36,8 @@ public class Book extends Item {
     private List<Genre> genres;
     
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "editor", referencedColumnName = "name")
-    private Editor editor;
+    @JoinColumn(name = "publisher", referencedColumnName = "name")
+    private Publisher editor;
 
     @Column(name = "isbn_10")
     private String isbn10;
@@ -47,7 +46,7 @@ public class Book extends Item {
     private String isbn13;
 
     public Book(Long id, String title, Integer year, Integer month, List<Author> authors,
-        List<Genre> genres, Editor editor, String isbn10, String isbn13) {
+        List<Genre> genres, Publisher editor, String isbn10, String isbn13) {
         super(title, year, month);
         this.id = id;
         this.authors = authors;
@@ -67,7 +66,7 @@ public class Book extends Item {
         return genres;
     }
 
-    public Editor getEditor() {
+    public Publisher getEditor() {
         return editor;
     }
 
@@ -87,7 +86,7 @@ public class Book extends Item {
         this.genres = genres;
     }
 
-    public void setEditor(Editor editor) {
+    public void setEditor(Publisher editor) {
         this.editor = editor;
     }
 
@@ -97,21 +96,5 @@ public class Book extends Item {
 
     public void setIsbn13(String isbn13) {
         this.isbn13 = isbn13;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-
-        Book book = (Book) obj;
-        return (book.isbn10.equalsIgnoreCase(isbn10) &&
-            book.isbn13.equalsIgnoreCase(isbn13));
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(isbn10, isbn13);
     }
 }

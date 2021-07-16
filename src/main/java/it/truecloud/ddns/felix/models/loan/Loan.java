@@ -3,18 +3,23 @@ package it.truecloud.ddns.felix.models.loan;
 import java.util.Objects;
 
 import it.truecloud.ddns.felix.models.Registered.Registered;
+import it.truecloud.ddns.felix.models.items.Item;
 import it.truecloud.ddns.felix.models.location.Location;
 
+/**
+ * The class represents a loan of either a book, Cd or DVD to
+ * a registered user.
+ */
 public class Loan {
-    private Long itemId;
+    private Item item;
     private String itemType;
     private Location location;
     private Registered registered;
     private Long pickUpDate, filingDate;
     
-    public Loan(Long itemId, String itemType, Location location, Registered registered, Long pickUpDate,
+    public Loan(Item item, String itemType, Location location, Registered registered, Long pickUpDate,
             Long filingDate) {
-        this.itemId = itemId;
+        this.item = item;
         this.itemType = itemType;
         this.location = location;
         this.registered = registered;
@@ -24,8 +29,8 @@ public class Loan {
 
     public Loan() {}
 
-    public Long getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
     public String getItemType() {
@@ -48,8 +53,8 @@ public class Loan {
         return filingDate;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public void setItemType(String itemType) {
@@ -74,7 +79,7 @@ public class Loan {
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, itemType, location, registered, pickUpDate);
+        return Objects.hash(item, itemType, location, registered, pickUpDate);
     }
 
     @Override
@@ -84,7 +89,7 @@ public class Loan {
         if (getClass() != obj.getClass()) return false;
         
         Loan loan = (Loan) obj;
-        return (loan.itemId == itemId && loan.itemType.equals(itemType) &&
+        return (loan.item.equals(item) && loan.itemType.equals(itemType) &&
             loan.location.equals(location) && loan.registered.equals(registered) &&
             loan.pickUpDate == pickUpDate);
     }

@@ -2,6 +2,9 @@ package it.truecloud.ddns.felix.models.Registered;
 
 import java.util.Objects;
 
+/**
+ * The class represents a user registered into the library system.
+ */
 public class Registered {
     private Long id;
     private String firstName, secondName, surname;

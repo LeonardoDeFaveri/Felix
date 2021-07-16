@@ -14,6 +14,10 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Retrieves all the book in the system.
+     * @return
+     */
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }

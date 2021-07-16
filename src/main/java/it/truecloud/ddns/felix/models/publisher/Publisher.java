@@ -1,20 +1,26 @@
-package it.truecloud.ddns.felix.models.editor;
+package it.truecloud.ddns.felix.models.publisher;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * The class represents a books publisher.
+ */
 @Entity
-@Table(name = "editors")
-public class Editor {
+@Table(name = "publishers")
+public class Publisher {
+    /**
+     * Publisher's name. It must be unique!
+     */
     @Id
     private String name;
 
-    public Editor(String name) {
+    public Publisher(String name) {
         this.name = name;
     }
 
-    public Editor() {}
+    public Publisher() {}
 
     public String getName() {
         return name;

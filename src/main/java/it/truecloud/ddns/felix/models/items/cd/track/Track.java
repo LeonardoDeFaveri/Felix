@@ -2,9 +2,15 @@ package it.truecloud.ddns.felix.models.items.cd.track;
 
 import java.util.Objects;
 
+/**
+ * The class represent a single track of a CD.
+ */
 public class Track {
     private Long id;
     private String name;
+    /**
+     * Duration in seconds.
+     */
     private Long duration;
 
     public Track(Long id, String name, Long duration) {

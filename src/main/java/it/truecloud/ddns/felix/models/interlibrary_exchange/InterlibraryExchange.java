@@ -2,16 +2,17 @@ package it.truecloud.ddns.felix.models.interlibrary_exchange;
 
 import java.util.Objects;
 
+import it.truecloud.ddns.felix.models.items.Item;
 import it.truecloud.ddns.felix.models.location.Location;
 
 public class InterlibraryExchange {
-    private Long itemId;
+    private Item item;
     private String itemType;
     private Location sender, recepient;
     private Long exchangeDate;
 
-    public InterlibraryExchange(Long itemId, String itemType, Location sender, Location recepient, Long exchangeDate) {
-        this.itemId = itemId;
+    public InterlibraryExchange(Item item, String itemType, Location sender, Location recepient, Long exchangeDate) {
+        this.item = item;
         this.itemType = itemType;
         this.sender = sender;
         this.recepient = recepient;
@@ -20,8 +21,8 @@ public class InterlibraryExchange {
 
     public InterlibraryExchange() {}
 
-    public Long getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
     public String getItemType() {
@@ -40,8 +41,8 @@ public class InterlibraryExchange {
         return exchangeDate;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public void setItemType(String itemType) {
@@ -62,7 +63,7 @@ public class InterlibraryExchange {
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, itemType, sender, recepient, exchangeDate);
+        return Objects.hash(item, itemType, sender, recepient, exchangeDate);
     }
 
     @Override
@@ -72,7 +73,7 @@ public class InterlibraryExchange {
         if (getClass() != obj.getClass()) return false;
 
         InterlibraryExchange interlibraryExchange = (InterlibraryExchange) obj;
-        return (interlibraryExchange.itemId == itemId &&
+        return (interlibraryExchange.item.equals(item) &&
             interlibraryExchange.itemType.equals(itemType) &&
             interlibraryExchange.sender.equals(sender) &&
             interlibraryExchange.recepient.equals(recepient) &&

@@ -1,27 +1,25 @@
-package it.truecloud.ddns.felix.models.author;
+package it.truecloud.ddns.felix.models.persons;
 
 import java.util.Objects;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Table(name = "authors")
-public class Author {
+@MappedSuperclass
+public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
     
-    private String firstName;
-    private String secondName;
-    private String surname;
-    private Integer yearOfBirth;
-    
-    public Author(Long id, String firstName, String secondName, String surname, Integer yearOfBirth) {
+    protected String firstName;
+    protected String secondName;
+    protected String surname;
+    protected Integer yearOfBirth;
+
+    public Person(Long id, String firstName, String secondName, String surname, Integer yearOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -29,7 +27,7 @@ public class Author {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public Author() {}
+    public Person() {}
 
     public Long getId() {
         return id;
@@ -80,7 +78,7 @@ public class Author {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
 
-        Author author = (Author) obj;
+        Person author = (Person) obj;
         return (author.firstName.equals(firstName) &&
             author.secondName.equals(secondName) &&
             author.surname.equals(surname) &&

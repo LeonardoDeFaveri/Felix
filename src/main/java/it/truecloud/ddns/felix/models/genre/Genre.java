@@ -7,6 +7,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "genres")
 public class Genre {
+    /**
+     * Genre's name. It must be unique!
+     */
     @Id
     private String name;
 

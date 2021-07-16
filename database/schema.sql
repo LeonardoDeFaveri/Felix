@@ -68,7 +68,7 @@ CREATE TABLE locations (
     UNIQUE(city, address)
 );
 
-CREATE TABLE editors (
+CREATE TABLE publishers (
     name VARCHAR(50) NOT NULL,
 
     PRIMARY KEY(name)
@@ -87,14 +87,14 @@ CREATE TABLE books (
     year INT NOT NULL,
     month INT DEFAULT NULL
     	CHECK ((month >= 1 AND month <= 12) OR month = NULL),
-    editor VARCHAR(50) NOT NULL,
+    publisher VARCHAR(50) NOT NULL,
     isbn_10 CHAR(10),
     isbn_13 CHAR(13) 
         CHECK (isbn_13 <=> NULL OR isbn_10 <=> NULL),
 
     PRIMARY KEY(id),
     UNIQUE(isbn_10, isbn_13),
-    FOREIGN KEY (editor) REFERENCES editors(name)
+    FOREIGN KEY (publisher) REFERENCES publishers(name)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -253,7 +253,7 @@ CREATE TABLE actors_dvds (
 
 CREATE TABLE interlibrary_exchanges (
     item_id INT NOT NULL,
-    item_type ENUM('book', 'cd', 'dvd') NOT NULL,
+    item_type ENUM('Book', 'CD', 'DVD') NOT NULL,
     sender_location_id INT NOT NULL,
     recepient_location_id INT NOT NULL
     	CHECK (sender_location_id <> recepient_location_id),
@@ -270,7 +270,7 @@ CREATE TABLE interlibrary_exchanges (
 
 CREATE TABLE items_locations (
     item_id INT NOT NULL,
-    item_type ENUM('book', 'cd', 'dvd') NOT NULL,
+    item_type ENUM('Book', 'CD', 'DVD') NOT NULL,
     location_id INT NOT NULL,
     filing_date DATE NOT NULL DEFAULT NOW(),
     pick_up_date DATE NULL
@@ -284,7 +284,7 @@ CREATE TABLE items_locations (
 
 CREATE TABLE loans (
     item_id INT NOT NULL,
-    item_type ENUM('book', 'cd', 'dvd') NOT NULL,
+    item_type ENUM('Book', 'CD', 'DVD') NOT NULL,
     location_id INT NOT NULL,
     registered_id INT NOT NULL,
     pick_up_date DATE NOT NULL DEFAULT NOW(),

@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.truecloud.ddns.felix.Configuration;
+
 @RestController
-@RequestMapping(path = "/felix/api/books")
+@RequestMapping(path = Configuration.END_POINT + "books")
 public class BookController {
     private final BookService bookService;
 
@@ -17,6 +19,10 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    /**
+     * Retrieves all the books in the system.
+     * @return
+     */
     @GetMapping
     public List<Book> getBooks() {
         return bookService.getBooks();

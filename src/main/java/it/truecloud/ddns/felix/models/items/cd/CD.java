@@ -1,11 +1,10 @@
 package it.truecloud.ddns.felix.models.items.cd;
 
 import java.util.List;
-import java.util.Objects;
 
-import it.truecloud.ddns.felix.models.author.Author;
 import it.truecloud.ddns.felix.models.items.Item;
 import it.truecloud.ddns.felix.models.items.cd.track.Track;
+import it.truecloud.ddns.felix.models.persons.author.Author;
 
 public class CD extends Item {
     private List<Author> authors;
@@ -55,20 +54,4 @@ public class CD extends Item {
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null) return false;
-        if (getClass() != obj.getClass()) return false;
-
-        CD cd = (CD) obj;
-        return (cd.title.equalsIgnoreCase(title) &&
-            cd.year == year);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, year);
-    }    
 }
