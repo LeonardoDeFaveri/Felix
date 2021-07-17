@@ -75,7 +75,7 @@ CREATE TABLE administrative_users (
     second_name VARCHAR(30) DEFAULT NULL,
     surname VARCHAR(30) NOT NULL,
     privilege_level ENUM('Library Employee','Library Super Employee','Super User') NOT NULL DEFAULT 'Library Employee',
-    password CHAR(64) NOT NULL,
+    password CHAR(60) NOT NULL,
 
     PRIMARY KEY(email)
 );

@@ -1,10 +1,8 @@
 package it.truecloud.ddns.felix.models.administrative_user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +26,6 @@ public class AdministrativeUserController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    static final String BAD_CREDENTIALS_MSG = "Invalid username or password";
-
     /**
      * Checks user's credentials and if valid returns a JWT token as response.
      * @param authenticationRequest authentication request
@@ -39,18 +35,10 @@ public class AdministrativeUserController {
     @PostMapping(path = Configuration.AUTHENTICATION_END_POINT)
     public ResponseEntity<?> createAuthenticationToken
         (@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getUsername(),
-                    authenticationRequest.getUsername()
-                )
-            );
-        } catch (BadCredentialsException exception) {
-            throw new Exception(BAD_CREDENTIALS_MSG, exception);
-            /*ResponseEntity output = ResponseEntity.ok(BAD_CREDENTIALS_MSG);
-            return output;*/
-        }
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+            authenticationRequest.getUsername(),
+            authenticationRequest.getPassword()
+        ));
 
         final UserDetails userDetails = administrativeUserDetailsService.loadUserByUsername(
             authenticationRequest.getUsername()

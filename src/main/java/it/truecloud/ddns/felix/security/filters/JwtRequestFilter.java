@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import it.truecloud.ddns.felix.Configuration;
@@ -37,21 +39,29 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
+        // These conditions are verified only if the user is trying to authenticate with bearer authentication
         if (authorizationHeader != null && authorizationHeader.startsWith(Configuration.AUTHORIZATION_HEADER_TYPE)) {
             // Takes the authorization header content without "Bearer " string
             jwt = authorizationHeader.substring(Configuration.AUTHORIZATION_HEADER_TYPE.length() + 1);
 
             try {
                 username = jwtTokenUtil.extractUsername(jwt);
-            } catch (SignatureException | MalformedJwtException exception) {
+            } catch (SignatureException | MalformedJwtException | ExpiredJwtException exception) {
                 username = null;
             }
         }
 
+        // These conditions are verified only if the username has been succesfully extracted
+        // by the jwt token
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.administrativeUserDetailsService.loadUserByUsername(username);
-            
-            if (jwtTokenUtil.validateToken(jwt, userDetails)) {
+            UserDetails userDetails;
+            try {
+                userDetails = this.administrativeUserDetailsService.loadUserByUsername(username);
+            } catch (UsernameNotFoundException exception) {
+                userDetails = null;
+            }
+
+            if (userDetails != null && jwtTokenUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
                     new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(
