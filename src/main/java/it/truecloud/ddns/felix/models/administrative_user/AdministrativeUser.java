@@ -1,11 +1,19 @@
 package it.truecloud.ddns.felix.models.administrative_user;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import it.truecloud.ddns.felix.models.administrative_user.role.Role;
 
 /**
  * The classe represents a user with administrative privileges.
@@ -22,7 +30,7 @@ import javax.persistence.Table;
  *      can add/remove/modify Library Super Employees
  */
 @Entity
-@Table(name = "administrative_users")
+@Table(name = "users")
 public class AdministrativeUser implements Serializable {
     /**
      * User's email. It must be unique!
@@ -35,17 +43,25 @@ public class AdministrativeUser implements Serializable {
     @Column(name = "second_name")
     private String secondName;
     private String surname;
-    @Column(name = "privilege_level")
-    private String privilegeLevel;
-    private String password;
 
-    public AdministrativeUser(String email, String firstName, String secondName, String surname, String privilegeLevel,
+    @JsonIgnore // This way password isn't return as an attribute of JSON Object
+    private String password;
+    
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_email"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
+
+    public AdministrativeUser(String email, String firstName, String secondName, String surname, List<Role> roles,
             String password) {
         this.email = email;
         this.firstName = firstName;
         this.secondName = secondName;
         this.surname = surname;
-        this.privilegeLevel = privilegeLevel;
+        this.roles = roles;
         this.password = password;
     }
 
@@ -83,12 +99,12 @@ public class AdministrativeUser implements Serializable {
         this.surname = surname;
     }
 
-    public String getPrivilegeLevel() {
-        return privilegeLevel;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setPrivilegeLevel(String privilegeLevel) {
-        this.privilegeLevel = privilegeLevel;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     public String getPassword() {
