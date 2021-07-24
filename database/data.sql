@@ -309,13 +309,28 @@ INSERT INTO `items_locations` (item_id, location_id, item_type) VALUES
 -- Rounds: 10
 -- Hash used in these example data:
 -- 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8
-INSERT INTO administrative_users (email, password, first_name, surname, privilege_level) VALUES
+INSERT INTO users (email, password, first_name, surname, privilege_level) VALUES
     ('leonardo.defaveri01@gmail.com', '$2a$12$P1LyDx5v31sZrpnAt5UZkOaBSPmT0mGS/84wU7hadG1iNlY492hBm',
         'Leonardo', 'De Faveri', 'Super User'),
     ('leopieve2001@gmail.com', '$2a$12$P1LyDx5v31sZrpnAt5UZkOaBSPmT0mGS/84wU7hadG1iNlY492hBm',
         'Leonardo', 'De Faveri', 'Library Super Employee');
 
-INSERT INTO administrative_users_locations (user_email, location_id, from_date) VALUES
+INSERT INTO roles (id, name) VALUES
+    (0, 'General User'),
+    (1, 'Library Employee'),
+    (2, 'Library Super Employee'),
+    (3, 'Super User');
+
+INSERT INTO users_roles (user_email, role_id) VALUES 
+    ('leonardo.defaveri01@gmail.com', 0),
+    ('leonardo.defaveri01@gmail.com', 1),
+    ('leonardo.defaveri01@gmail.com', 2),
+    ('leonardo.defaveri01@gmail.com', 3),
+    ('leopieve2001@gmail.com', 0),
+    ('leopieve2001@gmail.com', 1),
+    ('leopieve2001@gmail.com', 2);
+
+INSERT INTO users_locations (user_email, location_id, from_date) VALUES
     ('leopieve2001@gmail.com', 1, '2021-06-01'),
     ('leopieve2001@gmail.com', 2, NOW());
 

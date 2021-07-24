@@ -58,7 +58,18 @@ CREATE TABLE registered (
     UNIQUE(first_name, second_name, surname, date_of_birth)
 );
 
--- Administrative users:
+CREATE TABLE users (
+    email VARCHAR(320) NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
+    second_name VARCHAR(30) DEFAULT NULL,
+    surname VARCHAR(30) NOT NULL,
+    privilege_level ENUM('Library Employee','Library Super Employee','Super User') NOT NULL DEFAULT 'Library Employee',
+    password CHAR(60) NOT NULL,
+
+    PRIMARY KEY(email)
+);
+
+-- Roles for users int the system:
 -- General User (0) [Not represented]:
 --      can see all items in the system
 -- Library Employee (1):
@@ -69,15 +80,29 @@ CREATE TABLE registered (
 --      can add/remove/modify Library Employees
 -- Super User (3):
 --      can add/remove/modify Library Super Employees
-CREATE TABLE administrative_users (
-    email VARCHAR(320) NOT NULL,
-    first_name VARCHAR(30) NOT NULL,
-    second_name VARCHAR(30) DEFAULT NULL,
-    surname VARCHAR(30) NOT NULL,
-    privilege_level ENUM('Library Employee','Library Super Employee','Super User') NOT NULL DEFAULT 'Library Employee',
-    password CHAR(60) NOT NULL,
+CREATE TABLE roles (
+    id INT NOT NULL DEFAULT 0,
+    name ENUM('General User', 'Library Employee','Library Super Employee','Super User') NOT NULL DEFAULT 'General User',
+    
+    PRIMARY KEY(id),
+    UNIQUE(name)
+);
 
-    PRIMARY KEY(email)
+-- Every user 
+CREATE TABLE users_roles (
+    user_email VARCHAR(320) NOT NULL,
+    role_id INT NOT NULL,
+    from_datetime DATETIME NOT NULL DEFAULT NOW(),
+    to_datetime DATETIME NULL
+        CHECK (to_datetime >= from_datetime OR to_datetime = NULL),
+
+    PRIMARY KEY (user_email, role_id, from_datetime),
+    FOREIGN KEY (user_email) REFERENCES users(email)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 -- Locations of all the libraries in the system
@@ -90,7 +115,7 @@ CREATE TABLE locations (
     UNIQUE(city, address)
 );
 
-CREATE TABLE administrative_users_locations (
+CREATE TABLE users_locations (
     user_email VARCHAR(320) NOT NULL,
     location_id INT NOT NULL,
     from_date DATE NOT NULL DEFAULT NOW(),
@@ -98,7 +123,7 @@ CREATE TABLE administrative_users_locations (
         CHECK (to_date >= from_date OR to_date = NULL),
 
     PRIMARY KEY (user_email, location_id, from_date),
-    FOREIGN KEY (user_email) REFERENCES administrative_users(email)
+    FOREIGN KEY (user_email) REFERENCES users(email)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (location_id) REFERENCES locations(id)
